@@ -51,7 +51,7 @@ public class PlayerMoveListener implements Listener {
             /*
              * VOID TELEPORT >
              */
-            if (AdvancedLobby.cfg.getBoolean("void_teleport.enabled")) {
+            if (AdvancedLobby.cfg.getBoolean("void_teleport.enabled") && !AdvancedLobby.build.contains(p)) {
                 if (p.getLocation().getY() < AdvancedLobby.cfg.getDouble("void_teleport.height")) {
                     Location location = LocationManager.getLocation(
                             AdvancedLobby.cfg.getString("spawn_location"));
