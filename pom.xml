@@ -6,7 +6,7 @@
 
     <groupId>de.cyne</groupId>
     <artifactId>advancedlobby</artifactId>
-    <version>1.2</version>
+    <version>1.2.4</version>
 
     <repositories>
         <repository>

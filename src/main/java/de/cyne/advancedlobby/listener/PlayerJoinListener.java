@@ -20,6 +20,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class PlayerJoinListener implements Listener {
 
     @EventHandler
@@ -27,6 +29,15 @@ public class PlayerJoinListener implements Listener {
         Player p = e.getPlayer();
 
         e.setJoinMessage(Locale.JOIN_MESSAGE.getMessage(p).replace("%player%", AdvancedLobby.getName(p)));
+
+        // Enable double jump
+        try {
+            Class<?> clazz = Class.forName("me.treyruffy.treysdoublejump.api.DoubleJumpAPI");
+            clazz.getMethod("setDoubleJump", Player.class, Boolean.class).invoke(clazz, p, true);
+        } catch (IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException | ClassNotFoundException ex) {
+
+        }
 
         double health = AdvancedLobby.cfg.getDouble("player_join.health");
         p.setMaxHealth(health);

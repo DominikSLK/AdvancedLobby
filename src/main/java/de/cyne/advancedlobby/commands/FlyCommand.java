@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class FlyCommand implements CommandExecutor {
 
     @Override
@@ -23,12 +25,32 @@ public class FlyCommand implements CommandExecutor {
                     AdvancedLobby.fly.add(p);
                     p.setAllowFlight(true);
                     p.setFlying(true);
+
+                    // Disable double jump
+                    try {
+                        Class<?> clazz = Class.forName("me.treyruffy.treysdoublejump.api.DoubleJumpAPI");
+                        clazz.getMethod("setDoubleJump", Player.class, Boolean.class).invoke(clazz, p, false);
+                    } catch (IllegalAccessException | InvocationTargetException |
+                             NoSuchMethodException | ClassNotFoundException e) {
+
+                    }
+
                     p.sendMessage(Locale.COMMAND_FLY_ENABLE.getMessage(p));
                     return true;
                 }
                 AdvancedLobby.fly.remove(p);
                 p.setAllowFlight(false);
                 p.setFlying(false);
+
+                // Enable double jump
+                try {
+                    Class<?> clazz = Class.forName("me.treyruffy.treysdoublejump.api.DoubleJumpAPI");
+                    clazz.getMethod("setDoubleJump", Player.class, Boolean.class).invoke(clazz, p, true);
+                } catch (IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException | ClassNotFoundException e) {
+
+                }
+
                 p.sendMessage(Locale.COMMAND_FLY_DISABLE.getMessage(p));
                 return true;
             }
